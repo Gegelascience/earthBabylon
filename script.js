@@ -23,8 +23,8 @@ window.addEventListener("DOMContentLoaded", function() {
     camera.upperRadiusLimit = 500;
     camera.lowerRadiusLimit = 50;
 
-    var vrHelper = scene.createDefaultVRExperience();
-    
+    var vrHelper = scene.createDefaultVRExperience({createDeviceOrientationCamera:false});
+
     // Sun
     var sunlight = new BABYLON.PointLight(
       "sun",
@@ -69,28 +69,6 @@ window.addEventListener("DOMContentLoaded", function() {
     sphere.isBlocker = true;
     sphere.rotation.x = Math.PI;
 
-    // Space
-    var skybox = BABYLON.Mesh.CreateBox("skyBox", 10000.0, scene);
-    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
-    skyboxMaterial.backFaceCulling = false;
-    var files = [
-      "./textures/space_nx.jpg",
-      "./textures/space_nx.jpg",
-      "./textures/space_nx.jpg",
-      "./textures/space_nx.jpg",
-      "./textures/space_nx.jpg",
-      "./textures/space_nx.jpg"
-    ];
-    skyboxMaterial.reflectionTexture = BABYLON.CubeTexture.CreateFromImages(
-      files,
-      scene
-    );
-    skyboxMaterial.reflectionTexture.coordinatesMode =
-      BABYLON.Texture.SKYBOX_MODE;
-    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-    skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-    skyboxMaterial.disableLighting = true;
-    skybox.material = skyboxMaterial;
 
     // Lens flares
     var lensFlareSystem = new BABYLON.LensFlareSystem(
@@ -187,8 +165,6 @@ window.addEventListener("DOMContentLoaded", function() {
       moon.rotation.y -= 0.01;
       alpha -= 0.01;
     });
-
-    
 
     return scene;
   };
