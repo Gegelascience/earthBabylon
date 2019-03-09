@@ -10,25 +10,18 @@ window.addEventListener("DOMContentLoaded", function() {
     var scene = new BABYLON.Scene(engine);
 
     // Add a camera to the scene and attach it to the canvas
-    var camera = new BABYLON.ArcRotateCamera(
-      "Camera",
-      0,
-      0,
-      0,
-      BABYLON.Vector3.Zero(),
-      scene
-    );
-    camera.setPosition(new BABYLON.Vector3(-80, 50, 80));
-    camera.attachControl(canvas, false);
-    camera.upperRadiusLimit = 500;
-    camera.lowerRadiusLimit = 50;
 
-    var vrHelper = scene.createDefaultVRExperience({createDeviceOrientationCamera:false});
+    var vrHelper = scene.createDefaultVRExperience();
+    vrHelper.deviceOrientationCamera.position = new BABYLON.Vector3(40, 0, -90);
 
     // Sun
     var sunlight = new BABYLON.PointLight(
       "sun",
-      new BABYLON.Vector3(200, 0, 0),
+      new BABYLON.Vector3(
+        200 * Math.cos(Math.PI / 4),
+        0,
+        200 * Math.sin(Math.PI / 4)
+      ),
       scene
     );
     var sun = new BABYLON.MeshBuilder.CreateSphere(
@@ -68,7 +61,6 @@ window.addEventListener("DOMContentLoaded", function() {
     sphere.material = planete; //texture
     sphere.isBlocker = true;
     sphere.rotation.x = Math.PI;
-
 
     // Lens flares
     var lensFlareSystem = new BABYLON.LensFlareSystem(
@@ -157,7 +149,7 @@ window.addEventListener("DOMContentLoaded", function() {
         50 * Math.cos(alpha)
       );
       moon.position = moonlight.position;
-      if (moon.position.x <= -45) {
+      if (moon.position.x <= -5 && moon.position.z <= -5) {
         moon.material = hideMaterial;
       } else {
         moon.material = moontexture;
